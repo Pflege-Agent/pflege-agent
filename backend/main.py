@@ -2,10 +2,20 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import openai
 import os
+from fastapi.middleware.cors import CORSMiddleware  # ✅ CORS-Import
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = FastAPI()
+
+# ✅ CORS aktivieren
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # oder: ["http://localhost:5173"] für gezielte Freigabe
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class BerichtInput(BaseModel):
     stichpunkte: str
